@@ -1,0 +1,12 @@
+[user]
+  name = TSUYUSATO Kitsune
+  email = make.just.on@gmail.com
+[push]
+  default = current
+[core]
+  editor = vim
+  excludesfile = ~/.gitignore_global
+  precomposeunicode = true
+  quotepath = false
+[github]
+  user = MakeNowJust
