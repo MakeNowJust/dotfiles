@@ -1,6 +1,7 @@
 [user]
   name = TSUYUSATO Kitsune
   email = make.just.on@gmail.com
+  signingkey = 98BC940149C2BB5ED05DEBF49F4CB6A0CB6B6BE9
 [push]
   default = current
 [core]
@@ -10,3 +11,12 @@
   quotepath = false
 [github]
   user = MakeNowJust
+[commit]
+  gpgsign = true
+
+[url "git@github.com:"]
+  pushInsteadOf = git://github.com
+  pushInsteadOf = https://github.com/
+[url "git@gist.github.com:"]
+  pushInsteadOf = https://gist.github.com/
+

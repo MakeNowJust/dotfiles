@@ -90,6 +90,12 @@ alias lla='ls -la'
 # open multiple files on tabs
 alias vim='vim -p'
 
+# create a new file with executable flag, then open this
+vimx() {
+  local file="$1"
+  touch "$file" && chmod +x "$file" && vim "$file"
+}
+
 alias cls='clear'
 
 alias mv='nocorrect mv'
@@ -117,6 +123,7 @@ alias gco='git checkout'
 alias gcob='git checkout -b'
 alias gcobf='git checkout -B'
 alias gdf='git diff HEAD'
+alias gdfm='git diff master..HEAD'
 alias gdfs='gdf --staged'
 alias gft='git fetch'
 alias glg='git log --oneline --graph'
@@ -188,6 +195,8 @@ function preexec-send-history() {
 
 autoload -Uz add-zsh-hook
 add-zsh-hook preexec preexec-send-history
+
+has direnv && eval "$(direnv hook $SHELL)"
 
 # extra {{{1
 

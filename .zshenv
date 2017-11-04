@@ -3,6 +3,7 @@ setopt no_global_rcs
 path=(
   /usr/local/opt/coreutils/libexec/gnubin(N-)
   /usr/local/opt/gnu-sed/libexec/gnubin(N-)
+  ~/perl5/bin(N-)
   ~/.local/bin(N-)
   ~/.cargo/bin(N-)
   /usr/local/bin(N-) /usr/local/sbin(N-)
@@ -22,3 +23,5 @@ export GTK_PATH=/usr/local/lib/gtk-2.0
 
 export GOPATH=$HOME/.go
 path=($GOPATH/bin $path)
+
+export PERL5LIB=$HOME/perl5/lib/perl5

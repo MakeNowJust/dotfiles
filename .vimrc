@@ -14,6 +14,7 @@ silent! set shortmess:aIAc cmdheight:1 cmdwinheight:10
 let g:mode_dict = {
 \ 'n': 'NORMAL', 'i': 'INSERT', 'R': 'REPLACE', 'c': 'COMMAND', 'r': 'PROMPT', '!': 'EXECUTE',
 \ 'v': 'VISUAL', 'V': 'L-VISUAL', "\<C-v>": 'R-VISUAL', 's': 'SELECT', 'S': 'L-SELECT', "\<C-s>": 'R-SELECT',
+\ 't': 'TERMINAL'
 \ }
 silent! set noruler rulerformat: laststatus:2
 silent! set statusline:[%n][%{g:mode_dict[mode()]}][%t]%{&paste?'[PASTE]':''}%{&expandtab?'':'[TAB]'}%m%r%h%w%y%q[%{strftime('%Y/%m/%d\ %k:%M:%S')}]%=[%l/%L:%c][%p%%]
@@ -21,7 +22,7 @@ silent! set title titlelen:100 titleold: titlestring:%t%m\ -\ VIM
 silent! set noicon iconstring: showtabline:1 norightleft
 silent! set cursorline nocursorcolumn colorcolumn: concealcursor:nvc conceallevel:0
 silent! set list listchars:tab:>\ ,nbsp:_,trail:-
-silent! set synmaxcol:1000 ambiwidth:default breakindent breakindentopt:min:30,sbr
+silent! set synmaxcol:5000 ambiwidth:default breakindent breakindentopt:min:30,sbr
 silent! set nosplitbelow nosplitright startofline whichwrap:b,s,<,>
 silent! set scroll:0 sidescroll:0 scrolloff:5 sidescrolloff:0
 silent! set equalalways nowinfixwidth nowinfixheight winminwidth:3 winminheight:3
@@ -59,6 +60,17 @@ silent! set updatetime:300 timeout timeoutlen:500 ttimeout ttimeoutlen:50 ttyfas
 " Bell
 silent! set noerrorbells visualbell t_vb:
 
+if has('vim_starting')
+  " Use DECSCUSR to set cursor type.
+
+  " On insert mode, display unblink vertical cursor.
+  let &t_SI .= "\e[6 q"
+  " On normal mode, display unblink block cursor.
+  let &t_EI .= "\e[2 q"
+  " On replace mode, display underline cursor.
+  let &t_SR .= "\e[4 q"
+endif
+
 " Functions {{{1
 
 function! g:HistoryDeleteAll()
@@ -91,6 +103,9 @@ autocmd vimrc BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe
 " For commlog
 autocmd vimrc BufRead,BufNewFile COMMIT_EDITMSG if system('git symbolic-ref --short HEAD') ==# "commlog\n" | setf markdown | endif
 
+" babel
+autocmd vimrc BufRead,BufNewFile .babelrc set ft=json
+
 " Key mappings {{{1
 " Swap line/normal visual mode
 nnoremap v V
@@ -115,6 +130,8 @@ nnoremap <Space>o <C-w>o
 nnoremap <silent> <Space>t :<C-u>tabnew<CR>
 nnoremap <Space>n gt
 nnoremap <Space>p gT
+
+nnoremap <C-w>t gt
 
 " Enter to save
 nnoremap <expr> <CR> (bufname('%') ==# '[Command Line]' ? '<CR>' : ':<C-u>silent write<CR>:<C-u>echo "write"<CR>')
@@ -165,11 +182,11 @@ let g:netrw_alto = 0
 call plug#begin()
 
 Plug 'MakeNowJust/islenauts.vim'
-Plug 'haya14busa/incsearch.vim'
+Plug 'haya14busa/is.vim'
 Plug 'vim-scripts/gtags.vim'
 Plug 'rhysd/vim-crystal', { 'for': ['crystal', 'markdown'] }
-Plug 'othree/yajs.vim', { 'for': ['javascript', 'markdown'] }
-Plug 'othree/es.next.syntax.vim', { 'for': ['javascript', 'markdown'] }
+" Plug 'othree/yajs.vim', { 'for': ['javascript', 'markdown'] }
+" Plug 'othree/es.next.syntax.vim', { 'for': ['javascript', 'markdown'] }
 Plug 'digitaltoad/vim-pug', { 'for': 'pug' }
 Plug 'editorconfig/editorconfig-vim'
 Plug 'kchmck/vim-coffee-script', { 'for': 'coffee' }
@@ -178,8 +195,11 @@ Plug 'nikvdp/ejs-syntax', { 'for': 'ejs' }
 Plug 'vimperator/vimperator.vim'
 Plug 'derekwyatt/vim-scala', { 'for': 'scala' }
 Plug 'vim-scripts/jam.vim'
-" Plug 'maxmellon/vim-jsx-pretty', { 'for': 'javascript' }
+Plug 'pangloss/vim-javascript', { 'for': 'javascript' }
+Plug 'maxmellon/vim-jsx-pretty', { 'for': 'javascript' }
 Plug 'plasticboy/vim-markdown', { 'for': 'markdown' }
+Plug 'PProvost/vim-ps1', { 'for': 'ps1' }
+Plug 'hashivim/vim-terraform'
 
 call plug#end()
 
@@ -188,18 +208,13 @@ colorscheme islenauts
 "highlight Normal ctermbg=none
 "highlight NonText ctermbg=none
 
-" incsearch.vim {{{2
-map / <Plug>(incsearch-forward)
-map ? <Plug>(incsearch-backward)
-map g/ <Plug>(incsearch-stay)
-
-let g:incsearch#auto_nohlsearch = 1
-map n  <Plug>(incsearch-nohl-n)
-map N  <Plug>(incsearch-nohl-N)
-map *  <Plug>(incsearch-nohl-*)
-map #  <Plug>(incsearch-nohl-#)
-map g* <Plug>(incsearch-nohl-g*)
-map g# <Plug>(incsearch-nohl-g#)
+" is.vim {{{2
+map n  <Plug>(is-n)
+map N  <Plug>(is-N)
+map *  <Plug>(is-*)
+map #  <Plug>(is-#)
+map g* <Plug>(is-g*)
+map g# <Plug>(is-g#)
 
 " vim-markdown {{{2
 
@@ -208,6 +223,10 @@ let g:vim_markdown_fenced_languages = [
       \ 'viml=vim',
       \ 'js=javascript',
       \ ]
+
+" vim-javascript {{{2
+
+let g:javascript_plugin_flow = 1
 
 " Load local .vimrc {{{1
 
