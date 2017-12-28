@@ -106,6 +106,8 @@ autocmd vimrc BufRead,BufNewFile COMMIT_EDITMSG if system('git symbolic-ref --sh
 " babel
 autocmd vimrc BufRead,BufNewFile .babelrc set ft=json
 
+autocmd vimrc FileType go set noexpandtab
+
 " Key mappings {{{1
 " Swap line/normal visual mode
 nnoremap v V
@@ -200,6 +202,8 @@ Plug 'maxmellon/vim-jsx-pretty', { 'for': 'javascript' }
 Plug 'plasticboy/vim-markdown', { 'for': 'markdown' }
 Plug 'PProvost/vim-ps1', { 'for': 'ps1' }
 Plug 'hashivim/vim-terraform'
+Plug 'mk12/vim-lean'
+Plug 'cespare/vim-toml'
 
 call plug#end()
 

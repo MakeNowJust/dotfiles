@@ -3,11 +3,13 @@ setopt no_global_rcs
 path=(
   /usr/local/opt/coreutils/libexec/gnubin(N-)
   /usr/local/opt/gnu-sed/libexec/gnubin(N-)
+  /usr/local/opt/qt/bin(N-)
   ~/perl5/bin(N-)
   ~/.local/bin(N-)
   ~/.cargo/bin(N-)
   /usr/local/bin(N-) /usr/local/sbin(N-)
   /usr/local/opt/llvm/bin(N-)
+  /usr/local/opt/curl/bin(N-)
   /Library/TeX/texbin(N-)
   ~/.anyenv/bin(N-)
   $path

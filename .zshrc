@@ -133,6 +133,8 @@ alias gps='git push'
 alias gst='git status --short --branch'
 alias gsh='git show'
 
+alias grep='grep --color -nH'
+
 # variables {{{1
 
 # zsh-completions
@@ -203,6 +205,7 @@ has direnv && eval "$(direnv hook $SHELL)"
 # added by travis gem
 [ -f "$HOME/.travis/travis.sh" ] && source "$HOME/.travis/travis.sh"
 
-cls
+# after hook
+[ -f "$HOME/.zshafterrc" ] && source "$HOME/.zshafterrc"
 
 # vim:set foldenable foldmethod=marker:

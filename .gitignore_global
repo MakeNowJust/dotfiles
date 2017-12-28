@@ -2,6 +2,8 @@
 ,
 *.swp
 
+.envrc
+
 GPATH
 GRTAGS
 GTAGS
